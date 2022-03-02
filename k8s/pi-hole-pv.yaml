@@ -1,0 +1,52 @@
+---
+#
+# For OnPrem with static NFS environments
+#
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+ finalizers:
+ - kubernetes.io/pv-protection
+ name: pi-hole-blocker-etc-pv
+spec:
+ accessModes:
+ - ReadWriteMany
+ capacity:
+   storage: 15Gi
+ claimRef:
+   apiVersion: v1
+   kind: PersistentVolumeClaim
+   name: pi-hole-blocker-etc-pvc
+   namespace: pi-hole
+ nfs:
+   server: "192.168.1.119"
+   path: "/VOL_CAAS_TST/Q_CAAS_TST/docker-volumes/bjz01-tst-001/bjz01-tst-001-k8s01/pi-hole/etc-pihole"
+ persistentVolumeReclaimPolicy: Retain
+ storageClassName: ""
+ volumeMode: Filesystem
+---
+#
+# For OnPrem with static NFS environments
+#
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+ finalizers:
+ - kubernetes.io/pv-protection
+ name: pi-hole-blocker-dns-pv
+spec:
+ accessModes:
+ - ReadWriteMany
+ capacity:
+   storage: 15Gi
+ claimRef:
+   apiVersion: v1
+   kind: PersistentVolumeClaim
+   name: pi-hole-blocker-dns-pvc
+   namespace: pi-hole
+ nfs:
+   server: "192.168.1.119"
+   path: "/VOL_CAAS_TST/Q_CAAS_TST/docker-volumes/bjz01-tst-001/bjz01-tst-001-k8s01/pi-hole/etc-dsnmasq.d"
+ persistentVolumeReclaimPolicy: Retain
+ storageClassName: ""
+ volumeMode: Filesystem

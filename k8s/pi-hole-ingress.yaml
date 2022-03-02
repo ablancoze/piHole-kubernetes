@@ -1,0 +1,18 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: pi-hole-ingress
+  namespace: pi-hole
+spec:
+  ingressClassName: ingress-nginx
+  rules:
+  - host: pi-hole
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service: 
+            name: pi-hole-svc
+            port: 
+              number: 8001

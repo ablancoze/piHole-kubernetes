@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    k8s-app: pi-hole-blocker
+  name: pi-hole-svc
+  namespace: pi-hole
+spec:
+  ports:
+    - port: 8001
+      protocol: TCP
+      targetPort: 80
+      name: http
+  selector:
+    k8s-app: pi-hole-blocker

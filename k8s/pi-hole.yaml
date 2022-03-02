@@ -1,0 +1,87 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pi-hole-blocker 
+  namespace: pi-hole
+  labels:
+    k8s-app: pi-hole-blocker
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      k8s-app: pi-hole-blocker
+  template:
+    metadata:
+      name: pi-hole-blocker  
+      labels:
+        k8s-app: pi-hole-blocker
+    spec:
+      serviceAccount: pi-hole-blocker-sa
+      restartPolicy: Always
+      securityContext:
+        runAsUser: 0
+      # initContainers:
+      # - name: chown
+      #   image: busybox:latest
+      #   # command:
+      #   #   - sh
+      #   #   - -c
+      #   #   - |
+      #   #      set -e;
+      #   #      set -x;
+      #   #      chown -R 999:999 /etc/pihole;
+      #   #      chown -R 999:999 /etc/dnsmasq.d;
+      #   # volumeMounts:
+      #   # - mountPath: /etc/pihole/
+      #   #   name: pihole-etc
+      #   # - mountPath: /etc/dnsmasq.d/
+      #   #   name: pihole-dns
+      containers:
+      - name: pi-hole
+        image: pihole/pihole:latest
+        imagePullPolicy: IfNotPresent
+        resources:
+          limits:
+            cpu: 1
+            memory: 4Gi
+          requests:
+            cpu: 500m
+            memory: 1Gi
+        env:
+        - name: TZ
+          value: "Europe/Madrid"
+        - name: DNS1
+          value: "9.9.9.9"
+        - name: DNS2
+          value: "149.112.112.112"
+        - name: ServerIP
+          value: "192.168.1.4"
+        - name: WEBPASSWORD
+          value: "1912"
+        ports:
+        - containerPort: 53
+          hostPort: 53
+          protocol: TCP
+        - containerPort: 53
+          hostPort: 53
+          protocol: UDP
+        - containerPort: 80
+          protocol: TCP
+        volumeMounts:
+        - name: pihole-etc
+          mountPath: /etc/pihole/  
+        - name: pihole-dns
+          mountPath: /etc/dnsmasq.d/
+      nodeName: bjz01-tst-003
+      dnsConfig:
+        nameservers:
+          - 127.0.0.1
+          - 9.9.9.9
+      volumes:
+      - name: pihole-etc
+        persistentVolumeClaim:
+          claimName: pi-hole-blocker-etc-pvc
+      - name: pihole-dns
+        persistentVolumeClaim:
+          claimName: pi-hole-blocker-dns-pvc
