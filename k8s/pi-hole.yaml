@@ -17,6 +17,15 @@ spec:
       labels:
         k8s-app: pi-hole-blocker
     spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: kubernetes.io/hostname
+                operator: In
+                values:
+                  - "bjz01-tst-003"
       serviceAccount: pi-hole-blocker-sa
       restartPolicy: Always
       securityContext:
