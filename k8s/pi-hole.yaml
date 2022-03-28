@@ -49,7 +49,7 @@ spec:
         - name: DNS2
           value: "149.112.112.112"
         - name: ServerIP
-          value: "192.168.3.5"
+          value: "192.168.3.6"
         - name: WEBPASSWORD
           value: "1912"
         ports:
