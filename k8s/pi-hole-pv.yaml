@@ -19,7 +19,7 @@ spec:
    name: pi-hole-blocker-etc-pvc
    namespace: pi-hole
  nfs:
-   server: "192.168.1.5"
+   server: "192.168.3.254"
    path: "/VOL_CAAS_TST/Q_CAAS_TST/docker-volumes/bjz01-tst-001/bjz01-tst-001-k8s01/pi-hole/etc-pihole"
  persistentVolumeReclaimPolicy: Retain
  storageClassName: ""
@@ -45,7 +45,7 @@ spec:
    name: pi-hole-blocker-dns-pvc
    namespace: pi-hole
  nfs:
-   server: "192.168.1.5"
+   server: "192.168.3.254"
    path: "/VOL_CAAS_TST/Q_CAAS_TST/docker-volumes/bjz01-tst-001/bjz01-tst-001-k8s01/pi-hole/etc-dsnmasq.d"
  persistentVolumeReclaimPolicy: Retain
  storageClassName: ""
