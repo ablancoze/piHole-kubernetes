@@ -40,9 +40,9 @@ spec:
         - name: DNS2
           value: "149.112.112.112"
         - name: ServerIP
-          value: "192.168.1.4"
+          value: "192.168.3.5"
         - name: WEBPASSWORD
-          value: "aaaa"
+          value: "1912"
         ports:
         - containerPort: 53
           hostPort: 53
