@@ -9,7 +9,26 @@ spec:
   ports:
     - port: 8001
       protocol: TCP
-      targetPort: 80
+      targetPort: 443
       name: http
+  selector:
+    k8s-app: pi-hole-blocker
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    k8s-app: pi-hole-blocker
+  name: pi-hole-svc-nodeport
+  namespace: pi-hole
+spec:
+  type: NodePort
+  ports:
+    - port: 8001
+      protocol: TCP
+      targetPort: 443
+      name: http
+      # Por defecto y por comodidad, el plano de control de Kubernetes asignará el puerto desde un rango (por defecto: 30000-32767)
+      nodePort: 30000
   selector:
     k8s-app: pi-hole-blocker
